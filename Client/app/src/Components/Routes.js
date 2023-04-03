@@ -1,10 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Slider from "./Image-Silder";
-const Routes = (props)=>{
+
+const routes = (props) => {
+  return (
     <Router>
-        <Route exact path ="/" component={Slider} />
+      <Routes>
+        <Route path="/" element={<Slider/>} />
+      </Routes>
     </Router>
+  );
 };
-export default Routes;
+
+export default routes;

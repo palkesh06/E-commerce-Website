@@ -1,7 +1,13 @@
-import React from "react";
-const Slider = (props)=>{
-    return (
-        <h1>This is Slider Component</h1>
-    );
-};
+import React, { Component } from "react";
+import FileUploader from "./FileUpload";
+class Slider extends Component {
+    
+    render(){
+        return (
+            <center>
+                <FileUploader/>
+            </center>
+        )
+    }
+}
 export default Slider;
