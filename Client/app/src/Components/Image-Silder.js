@@ -5,7 +5,7 @@ class Slider extends Component {
     render(){
         return (
             <center>
-                <FileUploader/>
+                <FileUploader/>   
             </center>
         )
     }
