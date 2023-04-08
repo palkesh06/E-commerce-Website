@@ -1,23 +1,28 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
+
 class FileUploader extends Component {
   constructor(props) {
     super(props);
-    this.state = { file: null, imageData: null };
+    this.state = { file: null, imageData: [] };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
   componentDidMount() {
     axios
       .get("http://localhost:8000/upload-image")
-      .then((data) => {
-        this.setState({ imageData: data }, ()=>{console.log(this.state);});
+      .then((result) => {
+        this.setState({ imageData: result.data });
       })
       .catch((err) => console.log(err));
   }
+
   onChange(e) {
     this.setState({ file: e.target.files[0] });
   }
+
   onSubmit(e) {
     e.preventDefault();
     const formData = new FormData();
@@ -39,7 +44,15 @@ class FileUploader extends Component {
   }
 
   render() {
+    const { imageData } = this.state;
+    const images = imageData && imageData.map((singleImage) => {
+      const base64String = btoa(
+        String.fromCharCode(...new Uint8Array(singleImage.image.data.data))
+      );
+      return <img key={uuidv4()} src={`data:image/jpeg;base64, ${base64String}`} width={300} />;
+    });
     return (
+      <>
         <form onSubmit={this.onSubmit}>
           <label>
             Upload File:
@@ -47,6 +60,8 @@ class FileUploader extends Component {
           </label>
           <button type="submit">Submit</button>
         </form>
+        <div>{images}</div>
+      </>
     );
   }
 }

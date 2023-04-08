@@ -8,6 +8,10 @@ exports.postImage = (req, res, err) => {
       contentType: req.file.mimetype,
     },
   });
+  //deleting file from the file system onces it is saved in db.
+  fs.unlinkSync('Uploads/'+ req.file.filename, () => {
+    console.log("Delete File successfully.");
+});
   image
     .save()
     .then(() => {
@@ -20,5 +24,5 @@ exports.postImage = (req, res, err) => {
 
 exports.getImage = async (req, res, next) => {
   const images = await ImageModel.find();
-  res.send(images); 
+  res.json(images); 
 };
